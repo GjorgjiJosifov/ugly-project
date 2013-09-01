@@ -1,0 +1,122 @@
+description = "Ugly project because awesome is too fucking mainstream"
+apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
+
+
+subprojects {
+	apply plugin: "java"
+	apply plugin: "eclipse"
+	apply plugin: 'eclipse-wtp'
+	apply plugin: "war"
+	sourceCompatibility = 1.7
+	targetCompatibility = 1.7	
+	version = '1.0'
+	repositories {
+		mavenCentral()
+	}
+
+	configurations {
+	    provided
+	} 
+	sourceSets {
+	    main.compileClasspath += configurations.provided
+	    test.compileClasspath += configurations.provided
+	    test.runtimeClasspath += configurations.provided
+	}
+	eclipse {
+	  classpath {
+	    plusConfigurations += configurations.provided
+	  }
+	}
+}
+
+// Domain projects
+project(":ugly-entities") {
+	eclipse {
+	  wtp {
+	    facet {
+	      facet name: 'jst.java', version: '1.7'
+	    }
+	  }
+	}
+	dependencies {
+	  provided "org.hibernate:hibernate-core:4+"
+	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
+	  provided "javax.validation:validation-api:1+"		   
+	  compile project(":ugly-common")
+	}
+}
+
+project(":ugly-data-generator") {
+	eclipse {
+	  wtp {
+	    facet {
+	      facet name: 'jst.java', version: '1.7'
+	    }
+	  }
+	} 
+	dependencies {
+	  // Dependencies for all entities
+	}
+
+}
+project(":ugly-common") {
+	eclipse {
+	  wtp {
+	    facet {
+	      facet name: 'jst.java', version: '1.7'
+	    }
+	  }
+	} 
+	dependencies {
+	  // Dependencies for all entities
+	}
+}
+
+// EJB Projects
+project(":ugly-ejb-services") {
+	eclipse {
+	  wtp {
+	    facet {
+	      facet name: 'jst.java', version: '1.7'
+	      facet name: 'jst.ejb', version: '3.2'
+	    }
+	  }
+	}
+	dependencies {
+	  // Dependencies for ejb services
+	}
+}
+
+project(":ugly-dao-services") {
+	dependencies {
+	  // Dependencies for daos
+	  provided "org.hibernate:hibernate-core:4+"
+	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
+	  compile project(":ugly-entities")
+	}
+	eclipse {
+	  wtp {
+	    facet {
+	      facet name: 'jst.java', version: '1.7'
+	      facet name: 'jst.ejb', version: '3.2'
+	      facet name: 'jpt.jpa', version: '2.1'
+	    }
+	  }
+	}
+}
+// WEB Projects
+project(":ugly-web") {
+
+	eclipse {
+	  wtp {
+	    facet {
+	      facet name: 'jst.java', version: '1.7'
+	      facet name: 'jst.web', version: '3.1'
+	    }
+	  }
+	}
+
+	dependencies {
+	  // Dependencies for web app
+	}
+}
