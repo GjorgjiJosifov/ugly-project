@@ -1,0 +1,1 @@
+include "ugly-dao-services", "ugly-ejb-services", "ugly-web","ugly-data-generator","ugly-common","ugly-entities"
