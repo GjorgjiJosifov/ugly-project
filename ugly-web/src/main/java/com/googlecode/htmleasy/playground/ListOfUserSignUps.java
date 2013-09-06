@@ -6,8 +6,6 @@ package com.googlecode.htmleasy.playground;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import com.googlecode.htmleasy.View;
 
 /**
@@ -30,6 +28,6 @@ public class ListOfUserSignUps extends
 
 	@Override
 	protected View successfullPostHandler() {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 }

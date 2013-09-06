@@ -3,17 +3,18 @@ package com.googlecode.htmleasy.playground;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.googlecode.htmleasy.playground.bizzlevel.BizzFacade;
-import com.googlecode.htmleasy.playground.domain.DomainEntity;
+import org.ugly.interfaces.DomainEntity;
+import org.ugly.service.facade.EJBServiceFacade;
+
 import com.googlecode.htmleasy.playground.domain.ValidateResponse;
 
 public abstract class GenericModel {
 
 	protected List<String> errors;
 	protected Object[] domainEntities;
-	protected BizzFacade bizz;
+	protected EJBServiceFacade bizz;
 
-	protected GenericModel(BizzFacade b, int numberOfEntities) {
+	protected GenericModel(EJBServiceFacade b, int numberOfEntities) {
 		errors = new ArrayList<String>();
 		domainEntities = new Object[numberOfEntities];
 		this.bizz = b;

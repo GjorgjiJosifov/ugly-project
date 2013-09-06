@@ -1,19 +1,31 @@
 package com.googlecode.htmleasy.playground;
 
-import com.googlecode.htmleasy.playground.bizzlevel.BizzFacade;
-import com.googlecode.htmleasy.playground.domain.SignupDetails;
+import org.ugly.entities.SignupDetails;
+import org.ugly.service.facade.EJBServiceFacade;
+
 import com.googlecode.htmleasy.playground.domain.ValidateResponse;
 
 /** Simple POJO to store our view model. */
 public class UserModel extends GenericModel {
 
-	public UserModel(BizzFacade b) {
+	private Integer count;
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
+
+	public UserModel(EJBServiceFacade b) {
 		super(b, 1);
 	}
 
 	@Override
 	public GenericModel newModel() {
-		this.domainEntities[0] = bizz.getDefaultValues();
+		this.domainEntities[0] = bizz.getAllSignupDetails().get(0);
+		this.count = bizz.countSignupDetails();
 		return this;
 	}
 
