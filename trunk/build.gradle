@@ -12,6 +12,9 @@ subprojects {
 	version = '1.0'
 	repositories {
 		mavenCentral()
+                maven{
+			url "http://htmleasy-maven.googlecode.com/svn/trunk/"
+		}
 	}
 
 	configurations {
@@ -41,7 +44,8 @@ project(":ugly-entities") {
 	dependencies {
 	  provided "org.hibernate:hibernate-core:4+"
 	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
-	  provided "javax.validation:validation-api:1+"		   
+	  provided "javax.validation:validation-api:1+"
+	  provided "org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_1.1_spec:1+"		   
 	  compile project(":ugly-common")
 	}
 }
@@ -56,6 +60,15 @@ project(":ugly-data-generator") {
 	} 
 	dependencies {
 	  // Dependencies for all entities
+	  compile project(":ugly-entities")
+	  compile project(":ugly-dao-services")
+	  compile "org.fluttercode.datafactory:datafactory:0.8"
+	  compile "org.hibernate:hibernate-core:4+"
+	  compile "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
+	  compile "javax.validation:validation-api:1+"
+	  compile "org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_1.1_spec:1+"
+	  compile "org.hibernate:hibernate-entitymanager:4+"
+	  compile "postgresql:postgresql:9+"
 	}
 
 }
@@ -84,25 +97,33 @@ project(":ugly-ejb-services") {
 	}
 	dependencies {
 	  // Dependencies for ejb services
+	  provided project(":ugly-dao-services")
+	  provided "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec:1+"
+	  provided "javax.enterprise:cdi-api:1+"
+	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
 	}
 }
 
 project(":ugly-dao-services") {
+	apply plugin: "jar"
 	dependencies {
 	  // Dependencies for daos
 	  provided "org.hibernate:hibernate-core:4+"
+	  provided "org.hibernate:hibernate-entitymanager:4+"
 	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
+	  provided "postgresql:postgresql:9+"
+	  provided "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec:1+"
+	  provided "javax.enterprise:cdi-api:1+"
 	  compile project(":ugly-entities")
 	}
-	eclipse {
-	  wtp {
-	    facet {
-	      facet name: 'jst.java', version: '1.7'
-	      facet name: 'jst.ejb', version: '3.2'
-	      facet name: 'jpt.jpa', version: '2.1'
-	    }
-	  }
-	}
+//	eclipse {
+//	  wtp {
+//	    facet {
+//	      facet name: 'jst.java', version: '1.7'
+//	      facet name: 'jst.ejb', version: '3.2'
+//	    }
+//	  }
+//	}
 }
 // WEB Projects
 project(":ugly-web") {
@@ -118,5 +139,20 @@ project(":ugly-web") {
 
 	dependencies {
 	  // Dependencies for web app
+	  provided project(":ugly-ejb-services")
+	  provided project(":ugly-entities")
+	  provided project(":ugly-dao-services")
+	  provided "org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_1.1_spec:1+"
+	  provided "javax.enterprise:cdi-api:1+"
+	  provided "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec:1+"
+	  provided "org.jboss.resteasy:resteasy-jaxrs:3+"
+	  provided "com.googlecode.htmleasy:htmleasy:0.7"
+	  provided "javax.servlet:jstl:1+"
+	  provided "jstl:jstl:1+"
+	  provided "taglibs:standard:1+"
+	  provided "javax.servlet:servlet-api:3+"
+	  provided "javax.servlet:jsp-api:2+"
+	  provided fileTree(dir: '/home/gjorgji/Projects/Servers/ExploreFrameworksServers/WildFly8/wildfly-8.0.0.Alpha4/modules/system/layers/base', include: '**/*.jar')		
+           
 	}
 }
