@@ -3,8 +3,8 @@
  */
 package org.dao.genericdao;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * @author chemicalangel
@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
  */
 public abstract class BaseDB {
 
-	@PersistenceContext
+	@Inject
 	protected EntityManager em;
 
 }
