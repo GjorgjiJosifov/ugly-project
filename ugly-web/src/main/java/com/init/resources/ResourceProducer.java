@@ -8,31 +8,30 @@ import java.util.Arrays;
 import javax.enterprise.inject.Produces;
 import javax.naming.InitialContext;
 
-import com.googlecode.htmleasy.playground.bizzlevel.BizzFacade;
+import org.ugly.service.facade.EJBServiceFacade;
 
 public class ResourceProducer {
 
 	@Produces
-	public BizzFacade produceBizzFacade() {
-		Class<?>[] extendedInterfacesArray = BizzFacade.class.getInterfaces();
+	public EJBServiceFacade createEJBFacade() {
+		Class<?>[] extendedInterfacesArray = EJBServiceFacade.class
+				.getInterfaces();
 		int sExtends = extendedInterfacesArray.length;
 		Class<?>[] interfacesArray = Arrays.copyOf(extendedInterfacesArray,
 				sExtends + 1);
 
-		interfacesArray[sExtends] = BizzFacade.class;
+		interfacesArray[sExtends] = EJBServiceFacade.class;
 
-		return (BizzFacade) Proxy.newProxyInstance(getClass().getClassLoader(),
-				interfacesArray, new InvocationHandler() {
+		return (EJBServiceFacade) Proxy.newProxyInstance(getClass()
+				.getClassLoader(), interfacesArray, new InvocationHandler() {
 
-					@Override
-					public Object invoke(Object proxy, Method method,
-							Object[] args) throws Throwable {
-						Object ejbObject = new InitialContext()
-								.lookup("java:module/"
-										+ method.getDeclaringClass()
-												.getSimpleName());
-						return method.invoke(ejbObject, args);
-					}
-				});
+			@Override
+			public Object invoke(Object proxy, Method method, Object[] args)
+					throws Throwable {
+				Object ejbObject = new InitialContext().lookup("java:module/"
+						+ method.getDeclaringClass().getSimpleName());
+				return method.invoke(ejbObject, args);
+			}
+		});
 	}
 }
