@@ -9,12 +9,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 import org.jboss.resteasy.annotations.Form;
+import org.ugly.entities.SignupDetails;
+import org.ugly.interfaces.DomainEntity;
+import org.ugly.service.facade.EJBServiceFacade;
 
 import com.googlecode.htmleasy.RedirectException;
 import com.googlecode.htmleasy.View;
-import com.googlecode.htmleasy.playground.bizzlevel.BizzFacade;
-import com.googlecode.htmleasy.playground.domain.DomainEntity;
-import com.googlecode.htmleasy.playground.domain.SignupDetails;
 import com.googlecode.htmleasy.playground.domain.ValidateResponse;
 
 @Path("/signup")
@@ -28,7 +28,7 @@ public class UserSignup extends GenericController<UserModel> {
 	}
 
 	@Inject
-	public void setBizzFacade(BizzFacade b) {
+	public void setBizzFacade(EJBServiceFacade b) {
 		this.bizz = b;
 		this.model = new UserModel(b);
 	}
