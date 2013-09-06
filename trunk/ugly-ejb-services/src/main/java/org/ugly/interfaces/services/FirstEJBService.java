@@ -8,6 +8,4 @@ public interface FirstEJBService {
 
 	List<SignupDetails> getAllSignupDetails();
 
-	Integer countSignupDetails();
-
 }
