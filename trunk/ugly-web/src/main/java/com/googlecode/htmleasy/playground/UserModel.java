@@ -8,13 +8,13 @@ import com.googlecode.htmleasy.playground.domain.ValidateResponse;
 /** Simple POJO to store our view model. */
 public class UserModel extends GenericModel {
 
-	private Integer count;
+	private Long count;
 
-	public Integer getCount() {
+	public Long getCount() {
 		return count;
 	}
 
-	public void setCount(Integer count) {
+	public void setCount(Long count) {
 		this.count = count;
 	}
 
