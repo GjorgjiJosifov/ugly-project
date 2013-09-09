@@ -6,13 +6,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
 
 import org.dao.genericdao.BaseDB;
 
 @Stateless
-@Transactional(value = TxType.MANDATORY)
 public class QueryExecutorImpl extends BaseDB implements QueryExecutor {
 
 	@Override

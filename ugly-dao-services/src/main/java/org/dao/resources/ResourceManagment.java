@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContext;
 
 public class ResourceManagment {
 
-	@PersistenceContext()
+	@PersistenceContext(unitName="appPU")
 	@Produces
 	private EntityManager entityManager;
 
