@@ -8,7 +8,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
-import org.dao.genericdao.simple.GenericDao;
+
+import org.dao.genericdao.simple.IGenericDao;
 import org.ugly.entities.SignupDetails;
 import org.ugly.interfaces.services.FirstEJBService;
 
@@ -20,7 +21,7 @@ import org.ugly.interfaces.services.FirstEJBService;
 public class FirstService implements FirstEJBService {
 
 	@Inject
-	private GenericDao simpleDao;
+	private IGenericDao simpleDao;
 
 	@Override
 	public List<SignupDetails> getAllSignupDetails() {
