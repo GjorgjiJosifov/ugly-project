@@ -13,7 +13,7 @@ public class SignupQuery implements ISignupQuery {
 
 	@Override
 	public Query countSignupDetails() {
-		String query = "select max(number) from SignupDetails";
+		String query = "select COUNT(sd) from SignupDetails as sd";
 		return entityManager.createQuery(query);
 	}
 
