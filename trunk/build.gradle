@@ -1,12 +1,10 @@
 description = "Ugly project because awesome is too fucking mainstream"
 apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
 
-
-subprojects {
+allprojects {
 	apply plugin: "java"
 	apply plugin: "eclipse"
 	apply plugin: 'eclipse-wtp'
-	apply plugin: "war"
 	sourceCompatibility = 1.7
 	targetCompatibility = 1.7	
 	version = '1.0'
@@ -30,17 +28,11 @@ subprojects {
 	    plusConfigurations += configurations.provided
 	  }
 	}
+
 }
 
 // Domain projects
 project(":ugly-entities") {
-	eclipse {
-	  wtp {
-	    facet {
-	      facet name: 'jst.java', version: '1.7'
-	    }
-	  }
-	}
 	dependencies {
 	  provided "org.hibernate:hibernate-core:4+"
 	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
@@ -51,13 +43,7 @@ project(":ugly-entities") {
 }
 
 project(":ugly-data-generator") {
-	eclipse {
-	  wtp {
-	    facet {
-	      facet name: 'jst.java', version: '1.7'
-	    }
-	  }
-	} 
+	
 	dependencies {
 	  // Dependencies for all entities
 	  compile project(":ugly-entities")
@@ -72,14 +58,7 @@ project(":ugly-data-generator") {
 	}
 
 }
-project(":ugly-common") {
-	eclipse {
-	  wtp {
-	    facet {
-	      facet name: 'jst.java', version: '1.7'
-	    }
-	  }
-	} 
+project(":ugly-common") {	
 	dependencies {
 	  // Dependencies for all entities
 	}
@@ -87,17 +66,9 @@ project(":ugly-common") {
 
 // EJB Projects
 project(":ugly-ejb-services") {
-	eclipse {
-	  wtp {
-	    facet {
-	      facet name: 'jst.java', version: '1.7'
-	      facet name: 'jst.ejb', version: '3.2'
-	    }
-	  }
-	}
 	dependencies {
 	  // Dependencies for ejb services
-	  provided project(":ugly-dao-services")
+	  compile project(":ugly-dao-services")
 	  provided "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec:1+"
 	  provided "javax.enterprise:cdi-api:1+"
 	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
@@ -105,7 +76,6 @@ project(":ugly-ejb-services") {
 }
 
 project(":ugly-dao-services") {
-	apply plugin: "jar"
 	dependencies {
 	  // Dependencies for daos
 	  provided "org.hibernate:hibernate-core:4+"
@@ -116,17 +86,12 @@ project(":ugly-dao-services") {
 	  provided "javax.enterprise:cdi-api:1+"
 	  compile project(":ugly-entities")
 	}
-//	eclipse {
-//	  wtp {
-//	    facet {
-//	      facet name: 'jst.java', version: '1.7'
-//	      facet name: 'jst.ejb', version: '3.2'
-//	    }
-//	  }
-//	}
+	
 }
 // WEB Projects
 project(":ugly-web") {
+	apply plugin: 'eclipse-wtp'
+	apply plugin: 'war'
 
 	eclipse {
 	  wtp {
@@ -139,9 +104,7 @@ project(":ugly-web") {
 
 	dependencies {
 	  // Dependencies for web app
-	  provided project(":ugly-ejb-services")
-	  provided project(":ugly-entities")
-	  provided project(":ugly-dao-services")
+	  compile project(":ugly-ejb-services")
 	  provided "org.jboss.spec.javax.ws.rs:jboss-jaxrs-api_1.1_spec:1+"
 	  provided "javax.enterprise:cdi-api:1+"
 	  provided "org.jboss.spec.javax.ejb:jboss-ejb-api_3.1_spec:1+"
@@ -152,7 +115,10 @@ project(":ugly-web") {
 	  provided "taglibs:standard:1+"
 	  provided "javax.servlet:servlet-api:3+"
 	  provided "javax.servlet:jsp-api:2+"
-	  provided fileTree(dir: '/home/gjorgji/Projects/Servers/ExploreFrameworksServers/WildFly8/wildfly-8.0.0.Alpha4/modules/system/layers/base', include: '**/*.jar')		
-           
+
+	  provided "org.hibernate:hibernate-core:4+"
+	  provided "org.hibernate:hibernate-entitymanager:4+"
+	  provided "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1+"
+
 	}
 }
